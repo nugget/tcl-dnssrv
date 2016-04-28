@@ -8,9 +8,10 @@ proc main {} {
 	lappend hostlist _testservice._tcp.prod.macnugget.org
 
 	foreach fqdn $hostlist {
-		puts "FQDN $fqdn"
-		puts "  hostlist [::dnssrv::hostlist $fqdn]"
-		puts "  tophost  [::dnssrv::tophost $fqdn]"
+		puts "\[::dnssrv::hostlist $fqdn\]"
+		puts "  [::dnssrv::hostlist $fqdn]"
+		puts "\[::dnssrv::tophost $fqdn\]"
+		puts "  [::dnssrv::tophost $fqdn]"
 		puts "-- "
 	}
 }
