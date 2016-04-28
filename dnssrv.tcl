@@ -124,7 +124,7 @@ namespace eval ::dnssrv {
 		return $list
 	}
 
-	proc hostlist {fqdn} {
+	proc hostlist {fqdn args} {
 		set retlist [list]
 
 		set qname [::dnssrv::canonical $fqdn]
@@ -136,7 +136,13 @@ namespace eval ::dnssrv {
 			array set host $h
 			array set rdata $host(rdata)
 
-			lappend pri($rdata(priority)) [list $rdata(weight) $rdata(target)]
+			if {[lsearch -exact $args "-ports"] >= 0} {
+				set target "$rdata(target):$rdata(port)"
+			} else {
+				set target "$rdata(target)"
+			}
+
+			lappend pri($rdata(priority)) [list $rdata(weight) $target]
 		}
 
 		foreach priority [array names pri] {
@@ -146,8 +152,12 @@ namespace eval ::dnssrv {
 		return $retlist
 	}
 
-	proc tophost {fqdn} {
-		return [lindex [::dnssrv::hostlist $fqdn] 0]
+	proc tophost {fqdn args} {
+		if {[lsearch -exact $args "-ports"] >= 0} {
+			return [lindex [::dnssrv::hostlist $fqdn -ports] 0]
+		} else {
+			return [lindex [::dnssrv::hostlist $fqdn] 0]
+		}
 	}
 
 }
