@@ -1,12 +1,17 @@
+[![GitHub
+release](https://img.shields.io/github/release/nugget/tcl-dnssrv.svg)](https://github.com/nugget/tcl-dnssrv/releases)
+
+
 # NAME
 
 dnssrv - Tcl DNS SRV Client
 
 # SYNOPSIS
 
-package require dnssrv
 
 ````
+package require dnssrv
+
 ::dnssrv::hostlist query ?options?
 ::dnssrv::tophost query ?options?
 ````
