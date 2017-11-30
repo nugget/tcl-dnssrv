@@ -54,9 +54,7 @@ namespace eval ::dnssrv {
 		return
 	}
 
-	proc apply_weightings {hostlist {_retlist retlist}} {
-		upvar 1 $_retlist retlist
-
+	proc weighted_list {hostlist} {
 		# This behavior is defined by RFC2782
 
 		set zero_weighted [list]
@@ -110,7 +108,7 @@ namespace eval ::dnssrv {
 			}
 		}
 
-		return
+		return $retlist
 	}
 
 	proc randomize_list {list} {
@@ -145,8 +143,8 @@ namespace eval ::dnssrv {
 			lappend pri($rdata(priority)) [list $rdata(weight) $target]
 		}
 
-		foreach priority [array names pri] {
-			apply_weightings $pri($priority) retlist
+		foreach priority [lsort -increasing -integer [array names pri]] {
+			set retlist [concat $retlist [weighted_list $pri($priority)]]
 		}
 
 		return $retlist
