@@ -160,4 +160,4 @@ namespace eval ::dnssrv {
 
 }
 
-package provide dnssrv 1.0
+package provide dnssrv 1.1
